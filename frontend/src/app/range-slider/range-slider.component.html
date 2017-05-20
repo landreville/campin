@@ -1,0 +1,27 @@
+<div class="range-control">
+    <div class="range-labels">
+        <div class="range-labels__list">
+            <div *ngFor="let label of labels; let i=index;"
+
+                 class="range-labels__label-container">
+                <span class="range-labels__label"
+                      (click)="onLabelClick(i)">
+                    {{ label }}
+                </span>
+            </div>
+        </div>
+    </div>
+    <input #rangeInput
+           class="range-input"
+           type="range"
+           list="range-ticks"
+           [min]="min" [max]="max"
+           steps="1"
+           [value]="value"
+           (change)="onChange($event)">
+</div>
+
+<datalist id="range-ticks">
+    <option *ngFor="let label of labels; let i=index;" value="{{ i }}"
+            label="{{ label }}"></option>
+</datalist>

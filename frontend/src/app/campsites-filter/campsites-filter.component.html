@@ -1,0 +1,20 @@
+<div class="filter-container">
+    <div class="filter">
+        <div class="filter-label">
+            Quality
+        </div>
+        <div class="filter-control">
+            <range-slider [labels]="['Poor', 'Average', 'Good']"
+                          (rangeSelected)="onChange($event, 'quality')"></range-slider>
+        </div>
+    </div>
+    <div class="filter">
+        <div class="filter-label">
+            Privacy
+        </div>
+        <div class="filter-control">
+            <range-slider [labels]="['Poor', 'Average', 'Good']"
+                          (rangeSelected)="onChange($event, 'privacy')"></range-slider>
+        </div>
+    </div>
+</div>

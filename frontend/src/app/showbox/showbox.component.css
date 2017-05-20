@@ -1,0 +1,52 @@
+:host {
+    margin: 0.25rem;
+}
+
+.showbox-img--closed {
+    width: 100%;
+    cursor: pointer;
+}
+
+.showbox--closed {
+
+}
+
+.showbox--open {
+    position: fixed;
+    top: 25%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 10px;
+    border: 1px solid #888;
+    box-shadow: 0 8px 12px 0 rgba(0, 0, 0, 0.6), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    z-index: 1000;
+    cursor: pointer;
+}
+
+.showbox-img--open {
+    width: initial;
+    height: initial;
+    max-width: 900px;
+    z-index: 1001;
+    cursor: pointer;
+}
+
+.mask--closed {
+    display: none;
+}
+
+.mask--open {
+    display: block;
+    position: fixed;
+    z-index: 999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+

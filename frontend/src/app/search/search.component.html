@@ -1,0 +1,60 @@
+<form class="search-form" #searchForm="ngForm" (ngSubmit)="onSubmit($event)">
+    <div class="label">
+        When do you want to go camping?
+    </div>
+    <div class="form-field">
+        <my-date-picker name="startDate" #startDate="ngModel" required
+                        [options]="myDatePickerOptions"
+                        [(ngModel)]="model.startDate"
+                        (ngModelChange)="clearResults()"></my-date-picker>
+    </div>
+    <div class="label">
+        When do you want to come back?
+    </div>
+    <div class="form-field">
+        <my-date-picker name="endDate" #endDate="ngModel" required
+                        validateAfter="startDate"
+                        [options]="myDatePickerOptions"
+                        [(ngModel)]="model.endDate"
+                        (ngModelChange)="clearResults()"></my-date-picker>
+        <div class="field-error"
+             [hidden]="endDate.valid || endDate.pristine">
+            <span *ngIf="endDate.errors && endDate.errors.hasOwnProperty('validateAfter')">
+                The date you come back must be after you go camping on
+                {{ startDate.value.formatted }}.
+            </span>
+        </div>
+    </div>
+    <div class="label" for="driveHours">
+        How long do you want to drive?
+    </div>
+    <div class="form-field">
+        <select name="driveHours"
+                [(ngModel)]="model.driveHours"
+                (ngModelChange)="clearResults()">
+            <option value="0">There's no limit to how far I'll drive</option>
+            <option value="1">1 Hour</option>
+            <option value="2">2 Hours</option>
+            <option value="3">3 Hours</option>
+            <option value="4">4 Hours</option>
+            <option value="5">5 Hours</option>
+            <option value="6">6 Hours</option>
+        </select>
+    </div>
+    <div class="label">
+        Which city are you leaving?
+    </div>
+    <div class="form-field">
+        <place-autocomplete
+                name="fromPlace"
+                [(ngModel)]="model.fromPlace"
+                (ngModelChange)="clearResults()"></place-autocomplete>
+    </div>
+    <div class="form-buttons">
+        <button type="submit" [disabled]="!searchForm.form.valid || submitting">
+            {{submitting ? 'Searching...' : 'Find Free Reservations'}}
+        </button>
+    </div>
+</form>
+
+<a id="search-results"></a>

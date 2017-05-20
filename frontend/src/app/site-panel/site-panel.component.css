@@ -1,0 +1,57 @@
+:host {
+    margin: 1rem auto;
+    max-width: 1200px;
+
+    background-color: white;
+    box-shadow: 0 2px 4px 0 rgba(125, 125, 125, 0.5);
+
+    display: flex;
+    justify-content: space-around;
+
+    font-size: 0.5rem;
+    line-height: 0.5rem;
+}
+
+.panel-fields {
+    width: 40%;
+    margin: 1rem;
+    flex-grow: 1;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.field-group {
+    display: flex;
+    margin-bottom: 0.25rem;
+    padding-bottom: 0.25rem;
+    padding-top: 0.25rem;
+    border-bottom: 1px solid #eeeeee;
+}
+
+.field-group__label {
+    width: 200px;
+    font-weight: bold;
+    margin-right: 1rem;
+}
+
+.field-group__value {
+
+}
+
+.panel-images {
+    width: 40%;
+    margin: 1rem;
+    flex-grow: 1;
+
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.panel-image {
+    margin: 0.25rem;
+}
+
+.panel-image__img {
+    width: 100%;
+}

@@ -1,0 +1,18 @@
+:host {
+    margin-bottom: 3rem;
+}
+
+.filter {
+    display: flex;
+    align-items: center;
+}
+
+.filter-label {
+    padding: 0 1rem;
+
+}
+
+.filter-control {
+    padding: 0 1rem;
+}
+

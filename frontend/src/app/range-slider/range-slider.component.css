@@ -1,0 +1,31 @@
+.range-control {
+    width: 400px;
+}
+
+.range-input {
+    width: 100%;
+}
+
+.range-labels__list {
+    display: flex;
+    justify-content: space-between;
+}
+
+.range-labels__label-container {
+    text-align: center;
+    width: 100%;
+}
+
+.range-labels__label {
+    cursor: pointer;
+    font-size: 0.5rem;
+    font-family: "Droid Sans", "DejaVu Sans", sans-serif;
+}
+
+.range-labels__label-container:first-child {
+    text-align: left;
+}
+
+.range-labels__label-container:last-child {
+    text-align: right;
+}

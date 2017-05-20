@@ -1,0 +1,7 @@
+<h2 class="subtitle">{{ parkName }}</h2>
+
+<campsites-filter (filterSelected)="filter($event)"></campsites-filter>
+
+<site-panel
+        *ngFor="let campsite of freeSites"
+        [campsite]="campsite"></site-panel>

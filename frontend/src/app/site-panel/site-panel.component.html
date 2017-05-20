@@ -1,0 +1,23 @@
+<div class="panel-fields">
+    <div class="field-group">
+        <div class="field-group__label">Campground:</div>
+        <div class="field-group__value">{{ campsite.campgroundName }}</div>
+    </div>
+    <div class="field-group">
+        <div class="field-group__label">Site Number:</div>
+        <div class="field-group__value">{{ campsite.siteNumber }}</div>
+    </div>
+
+    <div class="field-group" *ngFor="let item of campsite.details | myMapItems">
+        <div class="field-group__label">{{ item.key }}</div>
+        <div class="field-group__value">{{ item.value }}</div>
+    </div>
+</div>
+
+<div class="panel-images" *ngIf="campsite.images && campsite.images.length > 1">
+    <div class="panel-image" *ngFor="let image of campsite.images">
+        <showbox [src]="image"></showbox>
+    </div>
+</div>
+
+

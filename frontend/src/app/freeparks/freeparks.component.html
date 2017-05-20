@@ -1,0 +1,32 @@
+<div class="free-parks">
+    <table class="free-parks-table">
+        <thead>
+        <tr>
+            <th>
+                <span class="header-link" (click)="orderBy('parkName')">Park Name</span>
+            </th>
+            <th class="align-right">
+                <span class="header-link" (click)="orderBy('driveHours')">
+                    Hours to Drive
+                </span>
+            </th>
+            <th class="align-right">
+                <span class="header-link" (click)="orderBy('freeSites')">
+                    Sites Free
+                </span>
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let freePark of freeParks">
+            <td>
+                <a routerLink="/parks/{{ freePark.parkName }}/campsites/free">
+                    {{ freePark.parkName }}
+                </a>
+            </td>
+            <td class="align-right">{{ freePark.driveHours }}</td>
+            <td class="align-right">{{ freePark.freeSites }}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
