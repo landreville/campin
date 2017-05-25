@@ -8,3 +8,5 @@ This is a project to try out some technologies:
 * Asynchronous Pyramid backend.
 * Asyncpg for asynchronous database access to Postgres.
 * Celery web spiders.
+
+See a demo at http://campin.heyneat.ca
