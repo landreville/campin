@@ -200,7 +200,7 @@ class PopulateCampsiteDetails(object):
                 self._set_details(response)
                 pictures_url = 'https://reservations.ontarioparks.com/Pictures.aspx'
                 pictures_params = {'locId': loc_id, 'rceId': rce_id}
-                return scrapy.Request(
+                yield scrapy.Request(
                     pictures_url + '?' + urlencode(pictures_params),
                     callback=self._set_photos
                 )

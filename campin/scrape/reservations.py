@@ -102,7 +102,7 @@ class ReservationSpider(scrapy.Spider):
         )
         reserve_date = response.meta['reserve_date']
 
-        log.debug('On page for park: {}'.format(park_name))
+        log.debug('On page for park. date: {}. park: {}'.format(reserve_date, park_name))
 
         if response.css('#viewAvailabilityMsg'):
             # A campground area must be chosen with a new request
