@@ -13,9 +13,9 @@ class CampSitePersistor(object):
         self._campsite = item
 
     def save(self):
-        self._campsite['images'] = [
+        self._campsite['images'] = {
             i['path'] for i in self._campsite['images']
-        ]
+        }
         d = self._set_park_id()
         d.addCallback(lambda _: self._set_campsite_id())
         d.addCallback(lambda _: self._add_or_update())
@@ -102,7 +102,7 @@ class CampSitePersistor(object):
             return
 
         log.debug(
-            'Updating campsite. {} - {}'.format(
+            '{} - {}. Updating campsite.'.format(
                 self._campsite['park_name'],
                 self._campsite['site_number']
             )
@@ -122,10 +122,16 @@ class CampSitePersistor(object):
         Add campsite images if they don't already exist. 
         """
         campsite_id = self._campsite['campsite_id']
-        image_names = [
+        image_names = {
             os.path.basename(image_path)
             for image_path in self._campsite['images']
-        ]
+        }
+
+        log.debug('{} - {}. Saving images in DB: {}'.format(
+            self._campsite['park_name'],
+            self._campsite['site_number'],
+            image_names
+        ))
 
         query = """
             SELECT COUNT(campsite_image_id)
@@ -140,10 +146,10 @@ class CampSitePersistor(object):
             RETURNING campsite_image_id
         """
 
-        def insert_on_not_exists(count, image_name):
-            if not count:
+        def insert_on_not_exists(results, image_name):
+            if not results[0][0]:
                 log.debug(
-                    'Inserting campsite image. {} - {} - {}'.format(
+                    '{} - {}. Inserting campsite image: {}'.format(
                         self._campsite['park_name'],
                         self._campsite['site_number'],
                         image_name
@@ -155,6 +161,14 @@ class CampSitePersistor(object):
                 )
 
                 return d
+            else:
+                log.debug(
+                    '{} - {}. Found existing image record: {}'.format(
+                        self._campsite['park_name'],
+                        self._campsite['site_number'],
+                        image_name
+                    )
+                )
 
         dl = []
         for image_name in image_names:
@@ -162,7 +176,7 @@ class CampSitePersistor(object):
                 query,
                 {'campsite_id': campsite_id, 'image_name': image_name}
             )
-            d.addCallback(lambda count: insert_on_not_exists(count, image_name))
+            d.addCallback(insert_on_not_exists, image_name)
             dl.append(d)
 
         dl = DeferredList(dl)
@@ -173,7 +187,7 @@ class CampSitePersistor(object):
          
         """
         log.debug(
-            'Inserting new campsite. {} - {}'.
+            ' {} - {}. Inserting new campsite.'.
             format(self._campsite['park_name'], self._campsite['site_number'])
         )
         query = """

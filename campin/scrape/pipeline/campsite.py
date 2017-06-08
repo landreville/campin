@@ -22,13 +22,16 @@ class CampSitePipeline(object):
         )
 
     def process_item(self, item, spider):
-        log.info(
-            'Processing campsite: {} - {}'.format(
-                item['park_name'], item['site_number']
-            )
-        )
-        log.debug('Image urls: {}'.format(item['image_urls']))
-        log.debug('Item: {}'.format(dict(item)))
+        log.info('{} - {}. Campsite pipeline processing.'.format(
+            item['park_name'],
+            item['site_number']
+        ))
+        log.debug('{} - {}. Image urls: {}'.format(
+            item['park_name'], item['site_number'], item['image_urls']
+        ))
+        log.debug('{} - {}. Item: {}'.format(
+            item['park_name'], item['site_number'], dict(item)
+        ))
 
         persistor = CampSitePersistor(self._conn, item)
         d = persistor.save()

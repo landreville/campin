@@ -50,6 +50,7 @@ class CampSiteSpider(scrapy.Spider):
             park_name = park_option.xpath('text()').extract()[0]
             park_id = park_option.xpath('@value').extract()[0]
 
+
             if park_name == 'Ontario Parks':
                 continue
 
@@ -114,14 +115,13 @@ class CampSiteSpider(scrapy.Spider):
                 continue
             # Table cell containing link to campsite details
             site_cell = cells[1]
+            site_number = cells[1].css('a::text').extract()[0].split()[0].strip()
 
             site = CampSiteItem()
             site['parent_park_name'] = parent_name
             site['park_name'] = park_name
             site['campground_name'] = campground_name
-            site['site_number'] = (
-                cells[1].css('a::text').extract()[0].split()[0].strip()
-            )
+            site['site_number'] = site_number
             site['site_type'] = cells[2].xpath('text()').extract()[0]
             site['details'] = {}
             site['images'] = []
@@ -173,7 +173,7 @@ class PopulateCampsiteDetails(object):
         """
         Return a request that will populate the campsite details on callback.
         """
-        log.debug('Populating site details. {} - {}'.format(
+        log.debug('{} - {}. Populating site details.'.format(
             self._campsite['park_name'],
             self._campsite['site_number']
         ))
@@ -223,7 +223,11 @@ class PopulateCampsiteDetails(object):
             value = text(row.css('td.value'))
             details[label] = value
 
-        log.info('Found details: {}'.format(details))
+        log.debug('{} - {}. Found details.\n{}'.format(
+            self._campsite['park_name'],
+            self._campsite['site_number'],
+            details
+        ))
         self._campsite['details'] = details
 
     def _set_photos(self, response):
@@ -234,7 +238,11 @@ class PopulateCampsiteDetails(object):
         for img in response.css('img.SiteImage::attr("src")'):
             url = img.extract()
             urls.append(url)
-        log.info('Found image urls: {}'.format(urls))
+        log.debug('{} - {}. Found image urls.\n{}'.format(
+            self._campsite['park_name'],
+            self._campsite['site_number'],
+            ', '.join(urls)
+        ))
         self._campsite['image_urls'] = urls
 
         yield self._campsite

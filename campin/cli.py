@@ -58,14 +58,14 @@ def scrape_sites():
             "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 " +
             "(KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36",
         'DOWNLOAD_DELAY':
-            0.5,
+            0.2,
         'CLOSESPIDER_ERRORCOUNT':
             1,
         'ITEM_PIPELINES': {
             'scrapy.pipelines.images.ImagesPipeline': 1,
             'campin.scrape.pipeline.CampSitePipeline': 100,
         },
-        'IMAGES_STORE': '/home/jason/workspace/campin/images'
+        'IMAGES_STORE': 'images'
     }
 
     config = _config_file_settings()
