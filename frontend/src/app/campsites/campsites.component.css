@@ -3,10 +3,12 @@
     margin-top: 5rem;
 }
 
-.free-sites {
+.content{
     margin: 1rem auto;
     max-width: 1200px;
+}
 
+.free-sites {
     background-color: white;
     box-shadow: 0 2px 4px 0 rgba(125, 125, 125, 0.5);
 
@@ -41,7 +43,12 @@
     line-height: 1.5em;
 }
 
-.subtitle {
+.subtitle > a{
+    font-family: "Droid Sans", "DejaVu Sans", sans-serif;
+    color: #444444;
+}
+
+.subtitle{
     font-family: "Droid Sans", "DejaVu Sans", sans-serif;
     color: #444444;
     font-size: 2rem;

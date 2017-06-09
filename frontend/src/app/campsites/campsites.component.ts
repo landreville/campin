@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import { CampSite } from "../models";
+import { CampSite, FreePark } from "../models";
 import { SearchService } from "../services";
 import { CampSitesFilterComponent } from "../campsites-filter";
 
@@ -11,6 +11,7 @@ import { CampSitesFilterComponent } from "../campsites-filter";
     templateUrl: './campsites.component.html'
 })
 export class CampSitesComponent implements OnInit {
+    public park: FreePark = null;
     // Contains campsites to display
     public freeSites: CampSite[] = [];
     // Contains all campsites that are free for the current park
@@ -41,10 +42,15 @@ export class CampSitesComponent implements OnInit {
         // Search for free campsites in the park
         this.searchService.searchFreeSites(parkName)
             .subscribe(
-                (freeSites) => {
-                    this.freeSites = freeSites;
-                    this.allSites = freeSites;
-                    return freeSites;
+                (results) => {
+                    if (results) {
+                        this.freeSites = results.sites;
+                        this.allSites = results.sites;
+                        let parkInfo = results.park;
+                        parkInfo.freeSites = results.sites.length;
+                        this.park = parkInfo;
+                    }
+                    return results;
                 },
                 (error) => {
                     throw error;

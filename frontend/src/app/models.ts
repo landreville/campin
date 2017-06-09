@@ -31,7 +31,8 @@ export class Search {
 
 export class FreePark {
     constructor(public parkName: string,
-                public freeSites: number,
+                public parkUrl: string,
+                public freeSites?: number,
                 public parentParkName?: string,
                 public driveHours?: number) {
     }
@@ -45,4 +46,9 @@ export class CampSite {
                 public details?: { [index: string]: string },
                 public images?: { [index: number]: string }) {
     }
+}
+
+export interface CampsiteSearchResult {
+    sites: CampSite[];
+    park: FreePark;
 }

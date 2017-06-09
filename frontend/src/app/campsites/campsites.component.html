@@ -1,7 +1,9 @@
-<h2 class="subtitle">{{ parkName }}</h2>
+<div class="content">
+    <h2 class="subtitle"><a href="{{ park ? park.parkUrl : '#' }}">{{ parkName }}</a></h2>
 
-<campsites-filter (filterSelected)="filter($event)"></campsites-filter>
+    <campsites-filter (filterSelected)="filter($event)"></campsites-filter>
 
-<site-panel
-        *ngFor="let campsite of freeSites"
-        [campsite]="campsite"></site-panel>
+    <site-panel
+            *ngFor="let campsite of freeSites"
+            [campsite]="campsite"></site-panel>
+</div>

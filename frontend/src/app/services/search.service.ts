@@ -5,14 +5,14 @@ import { BehaviorSubject } from "rxjs/Rx";
 import { Subscription } from "rxjs/Subscription";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/catch";
-import { CampSite, FreePark, Search } from "../models";
+import { CampSite, CampsiteSearchResult, FreePark, Search } from "../models";
 
 @Injectable()
 export class SearchService {
     private baseUrl = process.env.SEARCH_SERVICE_URL;
     private parkSearchUrl = this.baseUrl + '/parks/free';
     private freeParksSubject: BehaviorSubject<FreePark[]> = new BehaviorSubject([]);
-    private freeSitesSubject: BehaviorSubject<CampSite[]> = new BehaviorSubject([]);
+    private freeSitesSubject: BehaviorSubject<CampsiteSearchResult> = new BehaviorSubject(null);
     private lastSearch: Search;
 
     constructor(private http: Http) {
@@ -53,15 +53,15 @@ export class SearchService {
 
         let siteSearchUrl = this.baseUrl + '/parks/' + parkName + '/campsites/free';
         return this.http.get(siteSearchUrl, options)
-            .map((resp) => resp.json().data as CampSite[])
-            .map((campSites) => {
-                this.freeSitesSubject.next(campSites);
-                return campSites;
+            .map((resp) => resp.json().data as CampsiteSearchResult)
+            .map((results) => {
+                this.freeSitesSubject.next(results);
+                return results;
             })
             .catch(this.handleError);
     }
 
-    public subscribeFreeSites(fn: (_: CampSite[]) => void): Subscription {
+    public subscribeFreeSites(fn: (_: CampsiteSearchResult) => void): Subscription {
         return this.freeSitesSubject.asObservable().subscribe(fn);
     }
 
