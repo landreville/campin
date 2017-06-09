@@ -27,7 +27,7 @@ const ngcWebpack = require('ngc-webpack');
 const HMR = helpers.hasProcessFlag('hot');
 const AOT = helpers.hasNpmFlag('aot');
 const METADATA = {
-  googleapikey: 'your google maps api key',
+  googleapikey: 'AIzaSyBYV3PMapOeEFdB5L93GjaKJPZTxD_E96Q',
   title: 'Campin',
   baseUrl: '/',
   isDevServer: helpers.isWebpackDevServer()

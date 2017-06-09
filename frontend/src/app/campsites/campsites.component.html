@@ -1,5 +1,8 @@
 <div class="content">
-    <h2 class="subtitle"><a href="{{ park ? park.parkUrl : '#' }}">{{ parkName }}</a></h2>
+    <h2 class="subtitle">
+        <a href="{{ park ? park.parkUrl : '#' }}">{{ parkName }}</a>
+        <small>({{ freeSites.length }})</small>
+    </h2>
 
     <campsites-filter (filterSelected)="filter($event)"></campsites-filter>
 
