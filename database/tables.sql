@@ -8,6 +8,7 @@ create table campin.parks(
   park_name varchar not null unique,
   parent_park_id integer references campin.parks(park_id),
   address varchar,
+  url varchar,
   activities jsonb not null default '{}'::jsonb,
   facilities jsonb not null default '{}'::jsonb,
   usages jsonb not null default '[]'::jsonb,
