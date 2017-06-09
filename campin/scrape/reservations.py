@@ -24,7 +24,7 @@ class ReservationSpider(scrapy.Spider):
         current_year = datetime.now().year
         # Only the summer months
         start_date = max(
-            datetime(current_year, 6, 19),
+            datetime(current_year, 5, 19),
             datetime.now()
         )
         end_date = datetime(current_year, 10, 31)
@@ -79,7 +79,10 @@ class ReservationSpider(scrapy.Spider):
                     'ArrivalDate': reserve_date.strftime('%Y-%m-%d'),
                     'NumberOfNights': nights
                 }
-
+                log.debug('Date: {}. Park: {}. Making request.'.format(
+                    reserve_date,
+                    park_name
+                ))
                 request = scrapy.FormRequest.from_response(
                     response,
                     formname='MainForm',
@@ -87,7 +90,8 @@ class ReservationSpider(scrapy.Spider):
                     dont_click=True,
                     callback=self._park_callback,
                     cookies=cookies,
-                    meta={'reserve_date': reserve_date}
+                    meta={'reserve_date': reserve_date},
+                    dont_filter=True
                 )
                 request.meta['reserve_date'] = reserve_date
                 yield request
@@ -102,7 +106,9 @@ class ReservationSpider(scrapy.Spider):
         )
         reserve_date = response.meta['reserve_date']
 
-        log.debug('On page for park. date: {}. park: {}'.format(reserve_date, park_name))
+        log.debug('Date: {}. Park: {}. Park page responsed.'.format(
+            reserve_date, park_name
+        ))
 
         if response.css('#viewAvailabilityMsg'):
             # A campground area must be chosen with a new request
@@ -125,12 +131,19 @@ class ReservationSpider(scrapy.Spider):
                 continue
 
             site_number = cells[1].css('a::text').extract()[0].split()[0].strip()
+            log.debug('Date: {}. Site number: {}'.format(reserve_date, site_number))
 
             # Status of campsite reservation for the date
             site_status = cells[3].css('a::text')
             if not site_status:
                 site_status = cells[3].xpath('text()')
+
             site_status = site_status.extract()[0]
+            log.debug('{} - {} - {}. Scraping site reservation.'.format(
+                reserve_date,
+                park_name,
+                site_number
+            ))
 
             res = ReservationItem()
             res['reason'] = _status_map.get(site_status, site_status)

@@ -1,5 +1,5 @@
 import logging
-
+from datetime import date
 
 log = logging.getLogger(__name__)
 
@@ -15,12 +15,12 @@ class ReservationPersistor(object):
 
         def campsite_callback(campsite_id):
             if not campsite_id:
-                log.info('Campsite not found. Park name: {}. Site number: {}.'.format(
+                log.info('{} - {}. Campsite not found.'.format(
                     self._reservation['park_name'],
                     self._reservation['site_number']
                 ))
                 return
-            log.info('Found campsite. Park name: {}. Site number: {}.'.format(
+            log.info('{} - {}. Found campsite.'.format(
                     self._reservation['park_name'],
                     self._reservation['site_number']
             ))
@@ -33,6 +33,10 @@ class ReservationPersistor(object):
         return d
 
     def _get_campsite(self):
+        log.debug('Searching for campsite. Park name: {}. Site number: {}'.format(
+            self._reservation['park_name'],
+            self._reservation['site_number']
+        ))
         d = self._conn.runQuery(
             """
             SELECT campsite_id
@@ -52,6 +56,12 @@ class ReservationPersistor(object):
         return d
 
     def _reservation_exists(self):
+        reserve_date = self._reservation['reserve_date'].date()
+
+        log.debug('Searching for reservation. Campsite ID: {}. Date: {}'.format(
+            self._reservation['campsite_id'],
+            reserve_date
+        ))
         d_reservation_id = self._conn.runQuery(
             """
             SELECT reservation_id
@@ -60,15 +70,15 @@ class ReservationPersistor(object):
             AND reserve_date = %(reserve_date)s
         """, {
                 'campsite_id': self._reservation['campsite_id'],
-                'reserve_date': self._reservation['reserve_date']
+                'reserve_date': reserve_date
             }
         )
-        d_reservation_id.addCallback(
-            lambda results: results[0][0] if results else None
-        )
+
+        d_reservation_id.addCallback(lambda result: result[0][0] if result else None)
         return d_reservation_id
 
     def _insert_or_update(self, reservation_id):
+
         if reservation_id:
             sql = self._update_reservation_sql()
         else:

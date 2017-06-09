@@ -22,7 +22,7 @@ class ReservationPipeline(object):
     def process_item(self, item, spider):
         log.debug('Processing reservation: {}'.format(dict(item)))
         log.info(
-            'Processing reservation for campsite: {} - {}'.format(
+            '{} - {}. Processing reservation.'.format(
                 item['park_name'], item['site_number']
             )
         )
