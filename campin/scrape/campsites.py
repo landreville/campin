@@ -50,7 +50,6 @@ class CampSiteSpider(scrapy.Spider):
             park_name = park_option.xpath('text()').extract()[0]
             park_id = park_option.xpath('@value').extract()[0]
 
-
             if park_name == 'Ontario Parks':
                 continue
 

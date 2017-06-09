@@ -51,6 +51,7 @@ _park_search_query = """
       c.park_id as "parkId",
       c.parent_park_name as "parentParkName",
       c.park_name as "parkName",
+      c.url as "parkUrl",
       round(
         cast(extract(epoch from dh.drive_hours) / 3600 as numeric),
         1
@@ -77,7 +78,7 @@ _park_search_query = """
       dh.drive_hours <= coalesce($4, dh.drive_hours)
       OR dh.drive_hours is NULL
     )     
-    GROUP BY 1, 2, 3, 4 
+    GROUP BY 1, 2, 3, 4, 5 
     ORDER BY 
       c.park_name
 """
